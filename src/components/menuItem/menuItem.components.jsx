@@ -1,12 +1,17 @@
 import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./menuItem.styles.scss";
 
-const MenuItem = ({ title, imageUrl, size }) => {
+const MenuItem = ({ title, imageUrl, size, linkUrl }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   return (
     <div
       className={`homepage__menuItem ${
         size ? `homepage__menuItem--${size}` : ""
       }`}
+      onClick={() => navigate(`${location.pathname}${linkUrl}`)}
     >
       <div
         className="homepage__image"

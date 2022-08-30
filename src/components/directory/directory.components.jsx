@@ -57,6 +57,7 @@ class Directory extends Component {
               title={sect.title}
               imageUrl={sect.imageUrl}
               size={sect.size}
+              linkUrl={sect.linkUrl}
             ></MenuItem>
           );
         })}
