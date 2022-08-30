@@ -1,0 +1,13 @@
+.homepage {
+  &__directory {
+    width: 100%;
+
+    // we have containers of items
+    // we define flex to actually arrange them
+    // we wrap them so after they are allowed to grow, they will wrap back to a new row
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+}
