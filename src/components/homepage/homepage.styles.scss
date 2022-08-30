@@ -1,0 +1,50 @@
+.homepage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 8rem;
+
+  &__directory {
+    width: 100%;
+
+    // we have containers of items
+    // we define flex to actually arrange them
+    // we wrap them so after they are allowed to grow, they will wrap back to a new row
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  &__menuItem {
+    min-width: 30%;
+    height: 24rem;
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+  }
+
+  &__content {
+    height: 9rem;
+    display: flex;
+    padding: 1rem 2rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    border: 1px solid black;
+  }
+
+  &__title {
+    font-weight: bold;
+    font-size: 2.2rem;
+    color: #4a4a4a;
+  }
+
+  &__subtitle {
+    font-weight: lighter;
+    font-size: 1.6rem;
+  }
+}
