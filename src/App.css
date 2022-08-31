@@ -8,6 +8,18 @@
 
 */
 
+:root {
+  --fontOne: 0.422rem;
+  --fontTwo: 0.563rem;
+  --fontThree: 0.75rem;
+  --fontFour: 1rem;
+  --fontFive: 1.333rem;
+  --fontSix: 1.777rem;
+  --fontSeven: 2.369rem;
+  --fontEight: 3.157rem;
+  --fontNine: 4.209rem;
+}
+
 * {
   padding: 0%;
   margin: 0;
@@ -33,4 +45,9 @@ body {
 
 #root {
   padding: 2rem 6rem;
+}
+
+a {
+  text-decoration: none;
+  color: black;
 }

@@ -7,10 +7,12 @@ import {
   useNavigate,
   useLocation,
   matchRoutes,
+  Outlet,
 } from "react-router-dom";
 import "./App.css";
 import HomePage from "./pages/homepage/hompage.components.jsx";
 import ShopPage from "./pages/shop/shop.components";
+import Header from "./components/header/header.components.jsx";
 /**
  * ! There is alot of change from React Router v5 -> v6
  * ! Be very wary when going through the courses
@@ -27,6 +29,15 @@ const HatsPage = (props) => {
     <div>
       <h1>HATS PAGE</h1>
     </div>
+  );
+};
+
+const HeaderFooterLayout = () => {
+  return (
+    <>
+      <Header></Header>
+      <Outlet></Outlet>
+    </>
   );
 };
 
@@ -55,9 +66,12 @@ function App() {
   // In v6 we dont have to use exact anymore because this is supported by default
   return (
     <Routes>
-      <Route path="/" element={<HomePage />}></Route>
+      <Route element={<HeaderFooterLayout></HeaderFooterLayout>}>
+        <Route path="/" element={<HomePage />}></Route>
+        <Route path="/shop" element={<ShopPage></ShopPage>}></Route>
+      </Route>
+
       <Route path="/shop/hats" element={<HatsPage />}></Route>
-      <Route path="/shop" element={<ShopPage></ShopPage>}></Route>
     </Routes>
   );
 }

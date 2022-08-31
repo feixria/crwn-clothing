@@ -1,0 +1,30 @@
+.header {
+  height: 7rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5rem;
+
+  .logo-container {
+    height: 100%;
+    width: 7rem;
+    padding: 2.5rem;
+  }
+
+  .logo {
+  }
+
+  .nav {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .option {
+      font-size: var(--fontFive);
+      padding: 1rem 1.5rem;
+    }
+  }
+}
