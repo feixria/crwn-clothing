@@ -30,3 +30,7 @@ body {
   font-weight: 400;
   color: #555;
 }
+
+#root {
+  padding: 2rem 6rem;
+}

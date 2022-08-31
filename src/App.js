@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 import "./App.css";
 import HomePage from "./pages/homepage/hompage.components.jsx";
-
+import ShopPage from "./pages/shop/shop.components";
 /**
  * ! There is alot of change from React Router v5 -> v6
  * ! Be very wary when going through the courses
@@ -57,6 +57,7 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />}></Route>
       <Route path="/shop/hats" element={<HatsPage />}></Route>
+      <Route path="/shop" element={<ShopPage></ShopPage>}></Route>
     </Routes>
   );
 }
