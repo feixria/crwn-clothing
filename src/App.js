@@ -88,15 +88,10 @@ class App extends React.Component {
         // ! Why don't u use get, the problem with that is get dont give u the function
         // ! onSnapshot
         userRef.onSnapshot((snapShot) => {
-          this.setState(
-            {
-              currentUser: snapShot.id,
-              ...snapShot.data(),
-            },
-            () => {
-              console.log(this.state);
-            }
-          );
+          this.setState({
+            currentUser: snapShot.id,
+            ...snapShot.data(),
+          });
         });
       }
 
