@@ -14,6 +14,34 @@ const firebaseConfig = {
   measurementId: "G-Y33DKGXRFD",
 };
 
+export const createUserProfileDocument = async (userAuth, additionalData) => {
+  if (!userAuth) return;
+
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
+
+  const snapShot = await userRef.get();
+
+  // if the entry does not exist
+  if (!snapShot.exists) {
+    // creating fields that u want to store in firebase
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        createdAt,
+        ...additionalData,
+      });
+    } catch (error) {
+      console.log("error creating user", error.message);
+    }
+  }
+
+  return userRef;
+};
+
 // Initialize Firebase and set default broser language
 firebase.initializeApp(firebaseConfig);
 

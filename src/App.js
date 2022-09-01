@@ -14,7 +14,7 @@ import HomePage from "./pages/homepage/hompage.components.jsx";
 import ShopPage from "./pages/shop/shop.components";
 import Header from "./components/header/header.components.jsx";
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.components";
-import { auth } from "./firebase/firebase.utils";
+import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 
 /**
  * ! There is alot of change from React Router v5 -> v6
@@ -81,7 +81,25 @@ class App extends React.Component {
     // to observe the behaviour of the sign in state
     // the reason we want to store this in a public member variable is because
     // it will return a function that on call will close the connectoin.
-    this.unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        const userRef = await createUserProfileDocument(user);
+
+        // ! Why don't u use get, the problem with that is get dont give u the function
+        // ! onSnapshot
+        userRef.onSnapshot((snapShot) => {
+          this.setState(
+            {
+              currentUser: snapShot.id,
+              ...snapShot.data(),
+            },
+            () => {
+              console.log(this.state);
+            }
+          );
+        });
+      }
+
       this.setState({ currentUser: user });
     });
   }

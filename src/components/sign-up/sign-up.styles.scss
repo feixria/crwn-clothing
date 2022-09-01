@@ -1,18 +1,15 @@
-.sign-in {
+.sign-up {
+  display: flex;
+  flex-direction: column;
   width: 38rem;
 
-  .heading-sign {
+  .title {
     font-size: var(--fontSeven);
     font-weight: 500;
     margin-bottom: 2.4rem;
   }
 
-  .heading-subtitle {
+  span {
     font-size: var(--fontSix);
-  }
-
-  .buttons {
-    display: flex;
-    justify-content: space-between;
   }
 }
