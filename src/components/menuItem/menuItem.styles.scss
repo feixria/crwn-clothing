@@ -53,14 +53,14 @@
 
   &__title {
     font-weight: bold;
-    font-size: 2.2rem;
+    font-size: var(--fontSeven);
     color: #4a4a4a;
     text-transform: uppercase;
   }
 
   &__subtitle {
     font-weight: lighter;
-    font-size: 1.6rem;
+    font-size: var(--fontSix);
     text-transform: uppercase;
   }
 }

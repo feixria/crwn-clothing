@@ -13,6 +13,9 @@ import "./App.css";
 import HomePage from "./pages/homepage/hompage.components.jsx";
 import ShopPage from "./pages/shop/shop.components";
 import Header from "./components/header/header.components.jsx";
+import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.components";
+import { auth } from "./firebase/firebase.utils";
+
 /**
  * ! There is alot of change from React Router v5 -> v6
  * ! Be very wary when going through the courses
@@ -32,10 +35,10 @@ const HatsPage = (props) => {
   );
 };
 
-const HeaderFooterLayout = () => {
+const HeaderFooterLayout = ({ currentUser }) => {
   return (
     <>
-      <Header></Header>
+      <Header currentUser={currentUser}></Header>
       <Outlet></Outlet>
     </>
   );
@@ -62,18 +65,56 @@ const TopicDetail = (props) => {
 };
 */
 
-function App() {
+class App extends React.Component {
   // In v6 we dont have to use exact anymore because this is supported by default
-  return (
-    <Routes>
-      <Route element={<HeaderFooterLayout></HeaderFooterLayout>}>
-        <Route path="/" element={<HomePage />}></Route>
-        <Route path="/shop" element={<ShopPage></ShopPage>}></Route>
-      </Route>
+  state = {
+    currentUser: null,
+  };
+  unsubscribeFromAuth = null;
 
-      <Route path="/shop/hats" element={<HatsPage />}></Route>
-    </Routes>
-  );
+  constructor() {
+    super();
+  }
+
+  componentDidMount() {
+    // You are essentially creating an observer at the start of the app
+    // to observe the behaviour of the sign in state
+    // the reason we want to store this in a public member variable is because
+    // it will return a function that on call will close the connectoin.
+    this.unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
+      this.setState({ currentUser: user });
+    });
+  }
+
+  /**
+   * @method utilizing the public member variable to unsubscribe from authentication observer object
+   */
+  componentWillUnmount() {
+    this.unsubscribeFromAuth();
+  }
+
+  render() {
+    return (
+      <Routes>
+        <Route
+          element={
+            <HeaderFooterLayout
+              currentUser={this.state.currentUser}
+            ></HeaderFooterLayout>
+          }
+        >
+          <Route path="/" element={<HomePage />}></Route>
+          <Route path="/shop" element={<ShopPage></ShopPage>}></Route>
+          <Route
+            path="/signin"
+            element={<SignInAndSignUpPage></SignInAndSignUpPage>}
+          ></Route>
+        </Route>
+
+        <Route path="/shop/hats" element={<HatsPage />}></Route>
+      </Routes>
+    );
+  }
 }
 
 export default App;
