@@ -5,6 +5,7 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 15rem;
+  position: relative;
 
   .logo-container {
     height: 100%;
@@ -21,6 +22,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    gap: 2.4rem;
 
     .option {
       font-size: var(--fontFive);
@@ -28,6 +30,12 @@
       text-transform: uppercase;
       cursor: pointer;
       color: #555;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: #eee;
+      }
     }
   }
 }

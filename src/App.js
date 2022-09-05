@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   useParams,
   Routes,
@@ -16,6 +17,19 @@ import Header from "./components/header/header.components.jsx";
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.components";
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 
+// ? React redux
+import { connect } from "react-redux";
+import { setCurrentUser } from "./redux/user/user-actions";
+
+// ? React redux : Prevent user from accessing sign in page when already signed in
+import { Navigate } from "react-router-dom";
+
+// ! 8 23 Memoize selector
+import { createStructuredSelector } from "reselect";
+import { selectCurrentUser } from "./redux/user/user.selectors";
+
+// ! 8 24 Checkout page
+import CheckoutPage from "./pages/checkout/checkout.components";
 /**
  * ! There is alot of change from React Router v5 -> v6
  * ! Be very wary when going through the courses
@@ -35,12 +49,21 @@ const HatsPage = (props) => {
   );
 };
 
-const HeaderFooterLayout = ({ currentUser }) => {
+const HeaderFooterLayout = () => {
   return (
     <>
-      <Header currentUser={currentUser}></Header>
+      <Header></Header>
       <Outlet></Outlet>
     </>
+  );
+};
+
+const SignInCheck = ({ currentUser }) => {
+  console.log(currentUser);
+  return currentUser ? (
+    <Navigate to="/"></Navigate>
+  ) : (
+    <SignInAndSignUpPage></SignInAndSignUpPage>
   );
 };
 
@@ -67,20 +90,16 @@ const TopicDetail = (props) => {
 
 class App extends React.Component {
   // In v6 we dont have to use exact anymore because this is supported by default
-  state = {
-    currentUser: null,
-  };
-  unsubscribeFromAuth = null;
 
-  constructor() {
-    super();
-  }
+  unsubscribeFromAuth = null;
 
   componentDidMount() {
     // You are essentially creating an observer at the start of the app
     // to observe the behaviour of the sign in state
     // the reason we want to store this in a public member variable is because
     // it will return a function that on call will close the connectoin.
+    const { setCurrentUser } = this.props;
+
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (user) => {
       if (user) {
         const userRef = await createUserProfileDocument(user);
@@ -88,14 +107,14 @@ class App extends React.Component {
         // ! Why don't u use get, the problem with that is get dont give u the function
         // ! onSnapshot
         userRef.onSnapshot((snapShot) => {
-          this.setState({
-            currentUser: snapShot.id,
+          setCurrentUser({
+            id: snapShot.id,
             ...snapShot.data(),
           });
         });
       }
 
-      this.setState({ currentUser: user });
+      setCurrentUser(user);
     });
   }
 
@@ -109,25 +128,34 @@ class App extends React.Component {
   render() {
     return (
       <Routes>
-        <Route
-          element={
-            <HeaderFooterLayout
-              currentUser={this.state.currentUser}
-            ></HeaderFooterLayout>
-          }
-        >
+        <Route element={<HeaderFooterLayout></HeaderFooterLayout>}>
           <Route path="/" element={<HomePage />}></Route>
-          <Route path="/shop" element={<ShopPage></ShopPage>}></Route>
+          <Route path="/shop">
+            <Route index element={<ShopPage />}></Route>
+            <Route path="hats" element={<HatsPage />}></Route>
+          </Route>
           <Route
             path="/signin"
-            element={<SignInAndSignUpPage></SignInAndSignUpPage>}
+            element={
+              <SignInCheck currentUser={this.props.currentUser}></SignInCheck>
+            }
           ></Route>
+          <Route path="/checkout" element={<CheckoutPage />}></Route>
         </Route>
-
-        <Route path="/shop/hats" element={<HatsPage />}></Route>
       </Routes>
     );
   }
 }
 
-export default App;
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+  };
+};
+
+// ! We pass in null as the first argument because we dont need any state from the prop from our reducer
+export default connect(mapStateToProps, mapDispatchToProps)(App);
