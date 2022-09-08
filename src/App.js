@@ -30,6 +30,7 @@ import { selectCurrentUser } from "./redux/user/user.selectors";
 
 // ! 8 24 Checkout page
 import CheckoutPage from "./pages/checkout/checkout.components";
+
 /**
  * ! There is alot of change from React Router v5 -> v6
  * ! Be very wary when going through the courses
@@ -41,10 +42,10 @@ import CheckoutPage from "./pages/checkout/checkout.components";
  * 5 ) there is no props.history.push anymore. You have to do this through the usage of const navigate = useNavigate() navigate('/desiredRoute')
  */
 
-const HatsPage = (props) => {
+const NotFound = (props) => {
   return (
     <div>
-      <h1>HATS PAGE</h1>
+      <h1>PAGE NOT FOUND</h1>
     </div>
   );
 };
@@ -130,10 +131,7 @@ class App extends React.Component {
       <Routes>
         <Route element={<HeaderFooterLayout></HeaderFooterLayout>}>
           <Route path="/" element={<HomePage />}></Route>
-          <Route path="/shop">
-            <Route index element={<ShopPage />}></Route>
-            <Route path="hats" element={<HatsPage />}></Route>
-          </Route>
+          <Route path="/shop/*" element={<ShopPage />}></Route>
           <Route
             path="/signin"
             element={
@@ -142,6 +140,7 @@ class App extends React.Component {
           ></Route>
           <Route path="/checkout" element={<CheckoutPage />}></Route>
         </Route>
+        <Route path="*" element={<NotFound />}></Route>
       </Routes>
     );
   }

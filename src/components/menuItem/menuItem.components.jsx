@@ -6,6 +6,7 @@ const MenuItem = ({ title, imageUrl, size, linkUrl }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  console.log(location);
   return (
     <div
       className={`homepage__menuItem ${

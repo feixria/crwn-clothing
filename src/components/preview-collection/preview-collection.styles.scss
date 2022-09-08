@@ -6,10 +6,12 @@
   &__title {
     font-size: 2.8rem;
     margin-bottom: 2.5rem;
+    text-transform: uppercase;
   }
 
   &__preview {
     display: flex;
     justify-content: space-between;
+    gap: 1.2rem;
   }
 }

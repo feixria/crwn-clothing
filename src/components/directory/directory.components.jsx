@@ -1,69 +1,38 @@
-import React, { Component } from "react";
+import React from "react";
 import MenuItem from "../menuItem/menuItem.components";
 
 import "./directory.styles.scss";
 
-class Directory extends Component {
+// ! 10 1 Import the Directory reducer to replace state
+import { connect } from "react-redux";
+
+// ! 10 1 Because there is no need to initialize or declare state, since we are using redux
+// ! 10 1 The class component can be changed into a functional component
+import { selectDirectorySections } from "../../redux/directory/directory.selectors";
+import { createStructuredSelector } from "reselect";
+
+const Directory = ({ sections }) => {
   // if u wanted to use the this.props inside the contructor
   // u have to pass in that prop to the constructor
-  state = {
-    sections: [
-      {
-        title: "hats",
-        imageUrl: "https://i.ibb.co/cvpntL1/hats.png",
-        id: 1,
-        linkUrl: "shop/hats",
-      },
-      {
-        title: "jackets",
-        imageUrl: "https://i.ibb.co/px2tCc3/jackets.png",
-        id: 2,
-        linkUrl: "shop/jackets",
-      },
-      {
-        title: "sneakers",
-        imageUrl: "https://i.ibb.co/0jqHpnp/sneakers.png",
-        id: 3,
-        linkUrl: "shop/sneakers",
-      },
-      {
-        title: "womens",
-        imageUrl: "https://i.ibb.co/GCCdy8t/womens.png",
-        size: "large",
-        id: 4,
-        linkUrl: "shop/womens",
-      },
-      {
-        title: "mens",
-        imageUrl: "https://i.ibb.co/R70vBrQ/men.png",
-        size: "large",
-        id: 5,
-        linkUrl: "shop/mens",
-      },
-    ],
-  };
+  return (
+    <div className="homepage__directory">
+      {sections.map((sect) => {
+        return (
+          <MenuItem
+            key={sect.id}
+            title={sect.title}
+            imageUrl={sect.imageUrl}
+            size={sect.size}
+            linkUrl={sect.linkUrl}
+          ></MenuItem>
+        );
+      })}
+    </div>
+  );
+};
 
-  constructor() {
-    super();
-  }
+const mapStateToProps = createStructuredSelector({
+  sections: selectDirectorySections,
+});
 
-  render() {
-    return (
-      <div className="homepage__directory">
-        {this.state.sections.map((sect) => {
-          return (
-            <MenuItem
-              key={sect.id}
-              title={sect.title}
-              imageUrl={sect.imageUrl}
-              size={sect.size}
-              linkUrl={sect.linkUrl}
-            ></MenuItem>
-          );
-        })}
-      </div>
-    );
-  }
-}
-
-export default Directory;
+export default connect(mapStateToProps)(Directory);
