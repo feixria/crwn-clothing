@@ -8,7 +8,13 @@ import rootReducer from "./root-reducer";
 // ! Copying the link to a new tab doesn't work, only duplicating the tab will link the session storage
 import { persistStore } from "redux-persist";
 
-const middlewares = [logger];
+const middlewares = [];
+
+if (process.env.NODE_ENV === "development") {
+  middlewares.push(logger);
+}
+
+console.log(process.env.NODE_ENV);
 
 const store = createStore(rootReducer, applyMiddleware(...middlewares));
 const persistor = persistStore(store);
